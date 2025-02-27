@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des Points et Notes Finales</title>
+  <style>
+    /* Styles généraux */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #000000, #2c2c2c); /* Fond noir dégradé */
+  color: #067d3a; /* Texte doré */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Conteneur principal */
+.container {
+  background: rgba(0, 0, 0, 0.8); /* Fond semi-transparent noir */
+  width: 440px; /* Fixed width to fit 440px */
+  height: 956px; /* Fixed height to fit 956px */
+  display: flex;
+  flex-direction: column; /* Alignement vertical */
+  gap: 10px; /* Reduced spacing between sections */
+  padding: 15px; /* Reduced padding */
+  border: 2px solid #067d3a; /* Thinner border to save space */
+  border-radius: 10px;
+  overflow-y: auto; /* Permet le défilement si nécessaire */
+}
+
+h1 {
+  font-size: 1.5rem; /* Reduced font size */
+  text-align: center;
+  color: #067d3a; /* Or brillant */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid #067d3a; /* Thinner border */
+  padding-bottom: 8px; /* Reduced padding */
+}
+
+/* Section d'ajout d'élève */
+.add-student-section {
+  display: flex;
+  justify-content: space-between; /* Alignement horizontal */
+  gap: 8px; /* Reduced spacing */
+}
+
+.add-student-section input[type="text"] {
+  flex: 1; /* Remplit l'espace disponible */
+  max-width: 200px; /* Reduced max-width */
+  padding: 8px; /* Reduced padding */
+  border: 2px solid #067d3a; /* Bordure dorée */
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
+  color: #067d3a; /* Texte doré */
+  font-size: 0.9rem; /* Reduced font size */
+}
+
+.add-student-section button {
+  padding: 8px 15px; /* Reduced padding */
+  border: 2px solid #067d3a; /* Bordure dorée */
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem; /* Reduced font size */
+  transition: all 0.3s ease;
+  background: transparent; /* Fond transparent pour contraste */
+  color: #067d3a; /* Texte doré */
+}
+
+.add-student-section button:hover {
+  background: #067d3a; /* Or brillant */
+  color: #000; /* Texte noir */
+  transform: scale(1.05);
+}
+
+/* Liste des élèves */
+.student-list {
+  list-style: none;
+  padding: 0;
+  overflow-y: auto; /* Permet le défilement si nécessaire */
+  flex: 1; /* Remplit l'espace restant */
+}
+
+.student-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto; /* Nom, points, notes */
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6); /* Fond semi-transparent noir */
+  padding: 8px; /* Reduced padding */
+  border: 2px solid #067d3a; /* Bordure dorée */
+  border-radius: 6px;
+  margin-bottom: 8px; /* Reduced margin */
+  box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3); /* Ombre dorée */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.student-item:hover {
+  transform: translateY(-3px); /* Reduced hover effect */
+  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5); /* Ombre dorée renforcée */
+}
+
+.student-name {
+  font-weight: bold;
+  font-size: 0.9rem; /* Reduced font size */
+  color: #067d3a; /* Or brillant */
+}
+
+.controls {
+  display: flex;
+  gap: 8px; /* Reduced spacing */
+}
+
+.controls button {
+  padding: 5px 10px;
+  border: 2px solid #067d3a; /* Bordure dorée */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem; /* Reduced font size */
+  transition: all 0.3s ease;
+  background: transparent; /* Fond transparent pour contraste */
+  color: #067d3a; /* Texte doré */
+}
+
+.controls button:hover {
+  background: #067d3a; /* Or brillant */
+  color: #000; /* Texte noir */
+  transform: scale(1.1);
+}
+
+/* Style spécifique pour les champs de note */
+.note-input {
+  width: 50px; /* Reduced width */
+  padding: 5px;
+  border: 2px solid #067d3a; /* Bordure dorée */
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
+  color: #067d3a; /* Texte doré */
+  font-size: 0.9rem; /* Reduced font size */
+  text-align: center; /* Centrer le texte pour une meilleure lisibilité */
+}
+
+.final-grade {
+  font-size: 1rem; /* Reduced font size */
+  font-weight: bold;
+  color: #067d3a; /* Or brillant */
+  background: rgba(0, 0, 0, 0.7); /* Fond semi-transparent noir */
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 2px solid #067d3a; /* Bordure dorée */
+  min-width: 60px; /* Reduced width */
+  text-align: center;
+}
+
+/* Total des points */
+.total-points {
+  font-size: 1.2rem; /* Reduced font size */
+  text-align: center;
+  color: #067d3a; /* Or brillant */
+  animation: pulse 2s infinite;
+  border: 2px solid #067d3a; /* Thinner border */
+  padding: 8px; /* Reduced padding */
+  border-radius: 6px;
+}
+
+/* Bouton de réinitialisation */
+.reset-button {
+  width: 100%; /* Prend toute la largeur */
+  padding: 8px; /* Reduced padding */
+  border: 2px solid #b00020; /* Bordure rouge */
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem; /* Reduced font size */
+  transition: all 0.3s ease;
+  background: transparent; /* Fond transparent pour contraste */
+  color: #b00020; /* Texte rouge */
+}
+
+.reset-button:hover {
+  background: #b00020; /* Rouge profond */
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px); /* Reduced animation distance */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03); /* Reduced scaling */
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gestion des Points et Notes Finales</h1>
+
+    <!-- Section d'ajout d'élève -->
+    <div class="add-student-section">
+      <input type="text" id="new-student" placeholder="Ajouter un élève..." style="max-width: 400px;">
+      <button onclick="addStudent()">Ajouter un Élève</button>
+    </div>
+
+    <!-- Liste des élèves -->
+    <ul class="student-list" id="student-list"></ul>
+
+    <!-- Total des points -->
+    <div class="total-points" id="total-points">Points totaux : 0</div>
+
+    <!-- Bouton de réinitialisation -->
+    <button class="reset-button" onclick="resetStudents()">Supprimer Tous les Élèves</button>
+  </div>
+
+  <script>
+    // Charger les données depuis localStorage
+    let students = JSON.parse(localStorage.getItem('students')) || [];
+
+    // Fonction pour sauvegarder les données dans localStorage
+    function saveData() {
+      localStorage.setItem('students', JSON.stringify(students));
+      updateUI();
+    }
+
+    // Fonction pour ajouter un élève
+    function addStudent() {
+      const newStudentName = document.getElementById('new-student').value.trim();
+      if (newStudentName) {
+        students.push({ name: newStudentName, points: 0, currentGrade: 50 });
+        document.getElementById('new-student').value = '';
+        saveData();
+      }
+    }
+
+    // Fonction pour ajouter ou retirer des points
+    function updatePoints(index, amount) {
+      const student = students[index];
+      const currentTotal = parseFloat(student.currentGrade) + parseFloat(student.points);
+
+      // Si la note actuelle est > 86, chaque point vaut 0,5 %
+      if (currentTotal > 86) {
+        amount = amount > 0 ? 0.5 : -0.5; // Forcer +0.5 ou -0.5 en fonction de l'intention
+      }
+
+      // Ajouter les points avec précision
+      students[index].points = parseFloat((parseFloat(student.points) + amount).toFixed(1));
+      saveData();
+    }
+
+    // Calculer la note finale
+    function calculateFinalGrade(currentGrade, points) {
+      const grade = parseFloat(currentGrade) + parseFloat(points); // Chaque point vaut 1% ou 0,5%
+      return Math.min(100, Math.max(0, parseFloat(grade.toFixed(1)))); // Limiter la note entre 0 et 100
+    }
+
+    // Fonction pour convertir la note finale en mention
+    function getGradeScale(finalGrade) {
+      if (finalGrade >= 95) return "4+";
+      if (finalGrade >= 87) return "4";
+      if (finalGrade >= 80) return "4-";
+      if (finalGrade >= 77) return "3+";
+      if (finalGrade >= 73) return "3";
+      if (finalGrade >= 70) return "3-";
+      if (finalGrade >= 67) return "2+";
+      if (finalGrade >= 63) return "2";
+      if (finalGrade >= 60) return "2-";
+      if (finalGrade >= 57) return "1+";
+      if (finalGrade >= 52) return "1";
+      if (finalGrade >= 50) return "1-";
+      return "R"; // R pour tout ce qui est en dessous de 50
+    }
+
+    // Fonction pour mettre à jour l'interface utilisateur
+    function updateUI() {
+      const studentList = document.getElementById('student-list');
+      const totalPoints = document.getElementById('total-points');
+      studentList.innerHTML = '';
+      let total = 0;
+
+      students.forEach((student, index) => {
+        const finalGrade = calculateFinalGrade(student.currentGrade, student.points);
+        const gradeScale = getGradeScale(finalGrade); // Convertir la note en mention
+        const currentTotal = parseFloat(student.currentGrade) + parseFloat(student.points);
+
+        const listItem = document.createElement('li');
+        listItem.className = 'student-item';
+        listItem.innerHTML = `
+          <span class="student-name">${student.name}</span>
+          <div class="controls">
+            <button onclick="updatePoints(${index}, ${currentTotal > 86 ? 0.5 : 1})">${currentTotal > 86 ? '+0.5' : '+1'}</button>
+            <button onclick="updatePoints(${index}, ${currentTotal > 86 ? -0.5 : -1})">${currentTotal > 86 ? '-0.5' : '-1'}</button>
+          </div>
+          <div>
+            Points : ${student.points.toFixed(1)} | 
+            Note actuelle : <input type="number" class="note-input" value="${student.currentGrade}" min="0" max="100" onchange="updateCurrentGrade(${index}, this.value)">
+            | Note finale : <span class="final-grade">${finalGrade.toFixed(1)} (${gradeScale})</span>
+          </div>
+        `;
+        studentList.appendChild(listItem);
+        total += parseFloat(student.points);
+      });
+
+      totalPoints.textContent = `Points totaux : ${total.toFixed(1)}`;
+    }
+
+    // Fonction pour mettre à jour la note actuelle
+    function updateCurrentGrade(index, newGrade) {
+      students[index].currentGrade = parseFloat(newGrade).toFixed(1);
+      saveData();
+    }
+
+    // Fonction pour supprimer tous les élèves
+    function resetStudents() {
+      if (confirm("Êtes-vous sûr de vouloir supprimer tous les élèves ?")) {
+        students = [];
+        saveData();
+      }
+    }
+
+    // Initialiser l'interface utilisateur au chargement de la page
+    updateUI();
+  </script>
+
+</body>
+</html>
