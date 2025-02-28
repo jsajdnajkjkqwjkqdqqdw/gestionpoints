@@ -6,6 +6,9 @@
   <title>Gestion des Points et Notes Finales</title>
   <style>
     /* Styles généraux */
+/* Styles généraux */
+/* Styles généraux */
+/* Styles généraux */
 * {
   margin: 0;
   padding: 0;
@@ -26,50 +29,50 @@ body {
 /* Conteneur principal */
 .container {
   background: rgba(0, 0, 0, 0.8); /* Fond semi-transparent noir */
-  width: 440px; /* Fixed width to fit 440px */
-  height: 956px; /* Fixed height to fit 956px */
+  width: 440px; /* Fixed width */
+  height: auto; /* Adjust height dynamically */
   display: flex;
   flex-direction: column; /* Alignement vertical */
-  gap: 10px; /* Reduced spacing between sections */
-  padding: 15px; /* Reduced padding */
-  border: 2px solid #067d3a; /* Thinner border to save space */
+  gap: 20px; /* Increased spacing */
+  padding: 20px; /* Increased padding */
+  border: 2px solid #067d3a; /* Thinner border */
   border-radius: 10px;
   overflow-y: auto; /* Permet le défilement si nécessaire */
 }
 
 h1 {
-  font-size: 1.5rem; /* Reduced font size */
+  font-size: 1.6rem; /* Slightly increased font size */
   text-align: center;
   color: #067d3a; /* Or brillant */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   border-bottom: 2px solid #067d3a; /* Thinner border */
-  padding-bottom: 8px; /* Reduced padding */
+  padding-bottom: 10px; /* Increased padding */
 }
 
 /* Section d'ajout d'élève */
 .add-student-section {
   display: flex;
   justify-content: space-between; /* Alignement horizontal */
-  gap: 8px; /* Reduced spacing */
+  gap: 15px; /* Increased spacing */
 }
 
 .add-student-section input[type="text"] {
   flex: 1; /* Remplit l'espace disponible */
   max-width: 200px; /* Reduced max-width */
-  padding: 8px; /* Reduced padding */
+  padding: 10px; /* Increased padding */
   border: 2px solid #067d3a; /* Bordure dorée */
   border-radius: 6px;
   background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
   color: #067d3a; /* Texte doré */
-  font-size: 0.9rem; /* Reduced font size */
+  font-size: 1rem; /* Increased font size */
 }
 
 .add-student-section button {
-  padding: 8px 15px; /* Reduced padding */
+  padding: 10px 15px; /* Increased padding */
   border: 2px solid #067d3a; /* Bordure dorée */
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem; /* Reduced font size */
+  font-size: 1rem; /* Increased font size */
   transition: all 0.3s ease;
   background: transparent; /* Fond transparent pour contraste */
   color: #067d3a; /* Texte doré */
@@ -90,14 +93,14 @@ h1 {
 }
 
 .student-item {
-  display: grid;
-  grid-template-columns: 1fr auto auto; /* Nom, points, notes */
-  align-items: center;
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: flex-start; /* Align items to the left */
   background: rgba(0, 0, 0, 0.6); /* Fond semi-transparent noir */
-  padding: 8px; /* Reduced padding */
+  padding: 15px; /* Increased padding */
   border: 2px solid #067d3a; /* Bordure dorée */
   border-radius: 6px;
-  margin-bottom: 8px; /* Reduced margin */
+  margin-bottom: 15px; /* Increased margin */
   box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3); /* Ombre dorée */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -109,24 +112,27 @@ h1 {
 
 .student-name {
   font-weight: bold;
-  font-size: 0.9rem; /* Reduced font size */
+  font-size: 1rem; /* Increased font size */
   color: #067d3a; /* Or brillant */
+  margin-bottom: 10px; /* Added spacing */
 }
 
 .controls {
   display: flex;
-  gap: 8px; /* Reduced spacing */
+  gap: 10px; /* Increased spacing */
+  margin-top: 10px; /* Added spacing */
 }
 
 .controls button {
-  padding: 5px 10px;
+  padding: 8px 12px; /* Adjusted padding */
   border: 2px solid #067d3a; /* Bordure dorée */
   border-radius: 5px;
   cursor: pointer;
-  font-size: 0.8rem; /* Reduced font size */
+  font-size: 0.9rem; /* Slightly reduced font size */
   transition: all 0.3s ease;
   background: transparent; /* Fond transparent pour contraste */
   color: #067d3a; /* Texte doré */
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 .controls button:hover {
@@ -137,47 +143,48 @@ h1 {
 
 /* Style spécifique pour les champs de note */
 .note-input {
-  width: 50px; /* Reduced width */
-  padding: 5px;
+  width: 80px; /* Increased width */
+  padding: 8px;
   border: 2px solid #067d3a; /* Bordure dorée */
   border-radius: 5px;
   background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
   color: #067d3a; /* Texte doré */
-  font-size: 0.9rem; /* Reduced font size */
+  font-size: 1rem; /* Increased font size */
   text-align: center; /* Centrer le texte pour une meilleure lisibilité */
 }
 
 .final-grade {
-  font-size: 1rem; /* Reduced font size */
+  font-size: 1.1rem; /* Increased font size */
   font-weight: bold;
   color: #067d3a; /* Or brillant */
   background: rgba(0, 0, 0, 0.7); /* Fond semi-transparent noir */
-  padding: 5px 10px;
+  padding: 8px 12px;
   border-radius: 6px;
   border: 2px solid #067d3a; /* Bordure dorée */
-  min-width: 60px; /* Reduced width */
+  min-width: 80px; /* Increased width */
   text-align: center;
+  margin-top: 10px; /* Added spacing */
 }
 
 /* Total des points */
 .total-points {
-  font-size: 1.2rem; /* Reduced font size */
+  font-size: 1.3rem; /* Increased font size */
   text-align: center;
   color: #067d3a; /* Or brillant */
   animation: pulse 2s infinite;
   border: 2px solid #067d3a; /* Thinner border */
-  padding: 8px; /* Reduced padding */
+  padding: 10px; /* Increased padding */
   border-radius: 6px;
 }
 
 /* Bouton de réinitialisation */
 .reset-button {
   width: 100%; /* Prend toute la largeur */
-  padding: 8px; /* Reduced padding */
+  padding: 10px; /* Increased padding */
   border: 2px solid #b00020; /* Bordure rouge */
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.9rem; /* Reduced font size */
+  font-size: 1rem; /* Increased font size */
   transition: all 0.3s ease;
   background: transparent; /* Fond transparent pour contraste */
   color: #b00020; /* Texte rouge */
